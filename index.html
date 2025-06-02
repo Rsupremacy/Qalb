@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>To My Qalb</title>
+  <style>
+/* Global styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #4B0082 0%, #2E003E 100%);
+  color: #f0f0f0;
+  overflow: hidden;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  background: transparent;
+  outline: none;
+  transition: filter 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  user-select: none;
+}
+
+button:focus {
+  outline: 3px solid #e76f51;
+  outline-offset: 4px;
+}
+
+/* Front page styles */
+#frontPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: whitesmoke;
+  text-align: center;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background container with mad emojis repeated */
+#emojiBackground {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  font-size: 3.5rem;
+  color: white;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: 6px 6px;
+  opacity: 0.25;
+  user-select: none;
+  pointer-events: none;
+  padding: 10px;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+#frontContent {
+  position: relative;
+  z-index: 1;
+  max-width: 380px;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#frontContent h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #111;
+  text-shadow: 0 2px 7px rgb(255, 255, 255);
+}
+
+/* Container for horizontally aligned buttons */
+.buttonGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Heart-shaped button */
+#fixButton {
+  width: 140px;
+  height: 140px;
+  background: #460460;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  box-shadow: 0 8px 15px rgb(125, 2, 173);
+  font-family: 'Pacifico', cursive;
+  font-size: 1.7rem;
+  text-shadow: 0 0 8px #D39BDB;
+  color: white;
+  transition: background 0.3s ease, filter 0.3s ease;
+  will-change: transform;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#fixButton:hover {
+  background: #2c033d;
+}
+
+/* No Thanks Button */
+#noThanksButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #121212;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1.2;
+  transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.2s ease;
+  outline: none;
+}
+
+#noThanksButton:hover {
+  background-color: #f0f0f0;
+  border-color: #111;
+  transform: translateY(-1px);
+}
+
+#noThanksButton:active {
+  transform: translateY(1px);
+}
+
+/* Apology page styles */
+#apologyPage {
+  display: none;
+  background: #6c148a;
+  border-radius: 20px;
+  padding: 2.5rem 3rem;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  color: #f0f0f0;
+  text-align: center;
+  margin: 40px auto;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+#apologyPage h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.8rem;
+  margin-bottom: 0.25rem;
+  color: #f0f0f0;
+}
+
+#apologyPage p {
+  font-size: 1.1rem;
+  margin: 1rem 0 2rem;
+  color: #ddd;
+}
+
+#forgiveBtn {
+  background: #7b0482;
+  color: white;
+  border-radius: 50px;
+  padding: 12px 30px;
+  box-shadow: 0 5px 15px rgba(231, 111, 81, 0.4);
+  font-size: 1.1rem;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+#forgiveBtn:hover {
+  background: #4f0449;
+}
+
+#thankYou {
+  color: #E63946;
+  font-size: 2rem;
+  opacity: 0;
+  animation: heartBeat 1.2s ease forwards;
+  animation-delay: 0;
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+#thankYou.visible {
+  opacity: 1;
+  animation-name: heartBeat;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  body, html {
+    font-size: 14px;
+  }
+
+  #frontContent h1 {
+    font-size: 2rem;
+  }
+
+  #fixButton {
+    width: 100px;
+    height: 100px;
+    font-size: 1.2rem;
+  }
+
+  #noThanksButton {
+    padding: 8px 14px;
+    font-size: 0.95rem;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  #apologyPage {
+    padding: 1.5rem;
+    margin: 20px;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- Front page with mad emoji repeating background -->
+  <div id="frontPage" role="main" aria-label="Frustrated emojis before apology">
+    <div id="emojiBackground" aria-hidden="true" aria-label="Background mad emojis">
+      <!-- populate with many emoji elements -->
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+
+      <span class="emojiItem" title="Mad">🙄</span>
+
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span><span class="emojiItem" title="Mad">🙄</span>
+      <span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span><span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+<span class="emojiItem" title="Mad">🙄</span>
+
+
+
+
+      
+    
+
+    </div>
+<div id="frontContent">
+  <h1>My Qalb seek forgiveness😔</h1>
+  <div class="buttonGroup">
+  <button id="fixButton" aria-label="Click the Qalb to fix">Qalb</button>
+  <button id="noThanksButton" aria-label="Click to decline" style="margin-left: 200px;">No Thanks</button>
+  </div>
+</div>
+  </div>
+
+  <!-- Apology page -->
+  <div id="apologyPage" role="main" aria-label="Apology message to ask for forgiveness">
+    <h1>Maafa Aku</h1>
+    <p>please ih fix ta ini.<br>don't make me suffer ms. kaingatan mu ra isab na bukuh ku dusa diba?😭 plss ms have mercy on meee😭. dih ku na kaya in pagbiyaan mu kakuh😭</p>
+    <button id="forgiveBtn" aria-label="Click to forgive me">please click this cause i miss this woman of mine</button>
+    <div id="thankYou" aria-live="polite" aria-atomic="true">Thank you, love ❤️</div>
+   <img id="forgiveImage" src="ms_manhid.jpg" alt="Forgiveness" style="display: none; width: 100px; height: auto; margin-top: 1rem; border-radius: 10px;">
+   
+
+
+  <script>
+const frontPage = document.getElementById('frontPage');
+const apologyPage = document.getElementById('apologyPage');
+const fixButton = document.getElementById('fixButton');
+const noThanksButton = document.getElementById('noThanksButton');
+const forgiveBtn = document.getElementById('forgiveBtn');
+const thankYou = document.getElementById('thankYou');
+
+// Initially hide thank you text
+thankYou.style.opacity = '0';
+
+fixButton.addEventListener('click', () => {
+  frontPage.style.display = 'none';
+  apologyPage.style.display = 'block';
+});
+
+noThanksButton.addEventListener('click', () => {
+  // Ensure parent is positioned relatively so the absolute positioning works correctly
+  noThanksButton.parentElement.style.position = 'relative';
+
+  // Get the viewport dimensions
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  // Get the button's dimensions
+  const buttonWidth = noThanksButton.offsetWidth;
+  const buttonHeight = noThanksButton.offsetHeight;
+
+  // Subtract a small buffer (e.g., 10px) to ensure it doesn’t touch the edge
+  const padding = 10;
+  const maxX = viewportWidth - buttonWidth - padding;
+  const maxY = viewportHeight - buttonHeight - padding;
+
+  // Generate new random X and Y within bounds
+  const randomX = Math.max(padding, Math.random() * maxX);
+  const randomY = Math.max(padding, Math.random() * maxY);
+
+  // Set position styles
+  noThanksButton.style.position = 'fixed'; // use 'fixed' to stay relative to viewport
+  noThanksButton.style.left = `${randomX}px`;
+  noThanksButton.style.top = `${randomY}px`;
+});
+
+
+forgiveBtn.addEventListener('click', () => {
+  forgiveBtn.style.display = 'none';
+  thankYou.classList.add('visible');
+  forgiveImage.style.display = 'block'; // Show the picture
+});
+
+  </script>
+</body>
+</html>
+
+
+
+
+
+
